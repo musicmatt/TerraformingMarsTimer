@@ -14,7 +14,11 @@
 //------------------------------- GLOBAL DATA ---------------------------------
 
 //------------------------------ PUBLIC FUNCTIONS -----------------------------
-int phase_setup(void);
+void phase_setup (void);
+int select_num_players (void);
+char* pick_color (int ite);
+int countdown_timer_setup (void);
+void start_screen (int num_players, int minutes, PLAYER_T *players);
 
 //---------------------------- PRIVATE FUNCTIONS ------------------------------
 
