@@ -13,17 +13,12 @@
 
 //------------------------------- GLOBAL DATA ---------------------------------
 typedef struct player {
-  int color;
+  char *color;
   unsigned long cd_time;
+  boolean pass;
 }PLAYER_T;
 
-typedef enum colors {
-  BLACK =   0U,
-  BLUE =    1U,
-  RED =     2U,
-  YELLOW =  3U,
-  GREEN =   4U
-}colors;
+char *colors[5] = {"BLACK", "BLUE", "RED", "YELLOW", "GREEN"};
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
