@@ -16,8 +16,8 @@ void disp_next_gen (int *current_player, PLAYER_T *players);
 
 //------------------------- STATIC DATA & CONSTANTS ---------------------------
 static unsigned long current_millis;
-static unsigned long current_secs;
-static unsigned long previous_secs;
+static long current_secs;
+static long previous_secs;
 static int first_player = 0;
 static int generation = 1;
 static boolean paused = false;
@@ -28,9 +28,9 @@ int timer_run (int *current_player, PLAYER_T *players, int num_players)
 {  
   key = keypad.getKey();
   current_millis = millis();
-  current_secs = current_millis / 1000; 
+  current_secs = (signed long)(current_millis / 1000); 
   
-  if ((unsigned long)(current_secs - previous_secs) >= INTERVAL) 
+  if ((current_secs - previous_secs) >= INTERVAL) 
   {
     previous_secs = current_secs;
     if (paused == false)
@@ -78,6 +78,8 @@ void next_player (int *current_player, PLAYER_T *players, int num_players)
   do{
     *current_player = ((*current_player) + 1) % num_players;
   } while(players[*current_player].pass);
+
+  led_set(players[*current_player].led_color[0], players[*current_player].led_color[1], players[*current_player].led_color[2]);
   
 #ifndef DEBUG
   Serial.print("next player: ");
@@ -135,6 +137,7 @@ void toggle_pause (void)
 
 int next_generation (int *current_player, PLAYER_T *players, int num_players)
 {
+  led_off();
   for (ite = 0; ite < num_players; ite++)
   {
     players[ite].pass = false;
@@ -153,6 +156,7 @@ int next_generation (int *current_player, PLAYER_T *players, int num_players)
 #endif
 
   disp_next_gen(current_player, players);
+  led_set(players[*current_player].led_color[0], players[*current_player].led_color[1], players[*current_player].led_color[2]);
 }
 
 
