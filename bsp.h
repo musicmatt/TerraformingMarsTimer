@@ -6,19 +6,27 @@
 //---------------------------------- MACROS -----------------------------------
 
 //-------------------------------- DATA TYPES ---------------------------------
+typedef struct player {
+  char *color;
+  int led_color[3];
+  long cd_time;
+  boolean pass;
+}PLAYER_T;
 
 //---------------------- PRIVATE FUNCTION PROTOTYPES --------------------------
 
 //------------------------- STATIC DATA & CONSTANTS ---------------------------
 
 //------------------------------- GLOBAL DATA ---------------------------------
-typedef struct player {
-  char *color;
-  unsigned long cd_time;
-  boolean pass;
-}PLAYER_T;
-
 char *colors[5] = {"BLACK", "BLUE", "RED", "YELLOW", "GREEN"};
+
+int led_colors[5][3] = {
+  {128, 128, 0},
+  {0, 170, 0},
+  {255, 0, 0},
+  {128, 0, 255},
+  {0, 0, 255}
+};
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
@@ -36,6 +44,9 @@ byte colPins[COLS] = {A2, A1, A0}; //connect to the column pinouts of the keypad
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 
 //------------------------------ PUBLIC FUNCTIONS -----------------------------
+void led_init (void);
+void led_off (void);
+void led_set (int red_val, int blue_val, int green_val);
 
 //---------------------------- PRIVATE FUNCTIONS ------------------------------
 
