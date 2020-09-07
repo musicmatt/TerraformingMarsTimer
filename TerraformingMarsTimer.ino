@@ -19,11 +19,12 @@ PLAYER_T *players;
 //---------------------------- PRIVATE FUNCTIONS ------------------------------
 void setup() {
   Serial.begin(9600);
+  led_init();
   lcd.begin(16, 2);
 
   lcd.print("TerraformingMars");
   lcd.setCursor(0, 1);
-  lcd.print("Timer     v01.00");
+  lcd.print("Timer     v01.01");
   
 #ifndef DEBUG
   Serial.println("Press 0 to start");
@@ -37,7 +38,7 @@ void setup() {
   
   for (ite = 0; ite < num_players; ite++)
   {
-    players[ite].color = pick_color(ite);    // raspored boja
+    pick_color(players, ite);    // raspored boja
   }
 
   cd_minutes = countdown_timer_setup();
@@ -45,7 +46,7 @@ void setup() {
   Serial.println(cd_minutes);
 
   start_screen(num_players, cd_minutes, players);
-
+  led_set(players[current_player].led_color[0], players[current_player].led_color[1], players[current_player].led_color[2]);
   print_out_structs(num_players, players);
 }
 
