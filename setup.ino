@@ -20,6 +20,10 @@ void phase_setup(void)
 
 int select_num_players (void)
 {
+#ifndef DEBUG
+    Serial.println("Select num players");
+#endif
+
   lcd.clear();
   lcd.print("Num players:");
   lcd.setCursor(0, 1);
