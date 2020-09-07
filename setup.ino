@@ -54,7 +54,7 @@ int select_num_players (void)
   return perma_key - 48;
 }
 
-char* pick_color (int ite)
+void pick_color (PLAYER_T *players, int ite)
 {
   lcd.clear();
   lcd.setCursor(0,0);
@@ -78,13 +78,20 @@ char* pick_color (int ite)
       lcd.print("                ");
       lcd.setCursor(0, 1);
       lcd.print(colors[perma_key-1]);
+
+      led_set(led_colors[perma_key-1][0], led_colors[perma_key-1][1], led_colors[perma_key-1][2]);
+        
 #ifndef DEBUG
       Serial.print("--------    ");
       Serial.println(colors[perma_key-1]);
 #endif
     }  
   }
-  return colors[perma_key-1];
+  players[ite].color = colors[perma_key-1];
+  players[ite].led_color[0] = led_colors[perma_key-1][0];
+  players[ite].led_color[1] = led_colors[perma_key-1][1];
+  players[ite].led_color[2] = led_colors[perma_key-1][2];
+  led_off();
 }
 
 int countdown_timer_setup (void)
