@@ -11,6 +11,9 @@ static int ite = 0;
 static int cd_minutes = 0;
 //------------------------------- GLOBAL DATA ---------------------------------
 int num_players = 1;
+int current_player = 0;
+PLAYER_T *players;
+
 //------------------------------ PUBLIC FUNCTIONS -----------------------------
 
 //---------------------------- PRIVATE FUNCTIONS ------------------------------
@@ -20,15 +23,17 @@ void setup() {
 
   lcd.print("TerraformingMars");
   lcd.setCursor(0, 1);
-  lcd.print("Timer     v00.01");
-
-  while(keypad.getKey() != '0')
-  {
-  } 
+  lcd.print("Timer     v01.00");
+  
+#ifndef DEBUG
+  Serial.println("Press 0 to start");
+#endif
+  
+  while(keypad.getKey() != '0');
   
   num_players = select_num_players(); // koliko igraca
   
-  PLAYER_T *players = malloc (num_players * sizeof(PLAYER_T));
+  players = malloc (num_players * sizeof(PLAYER_T));
   
   for (ite = 0; ite < num_players; ite++)
   {
@@ -45,11 +50,7 @@ void setup() {
 }
 
 void loop() {
-
-  #if 0
-  next_player();
-  next_generation();
-  #endif
+  timer_run(&current_player, players, num_players);
 }
 
 
@@ -57,11 +58,13 @@ void print_out_structs (int num_players, PLAYER_T *players)
 {
   for (ite = 0; ite < num_players; ite++)
   {
-    Serial.print("player.color");
+    Serial.print("player.color: ");
     Serial.print(players[ite].color);
-    Serial.print("\t player.cd_time");
+    Serial.print("\t player.cd_time: ");
     Serial.println(players[ite].cd_time);
-    
   } 
 }
+
+
+
 //---------------------------- INTERRUPT HANDLERS -----------------------------
